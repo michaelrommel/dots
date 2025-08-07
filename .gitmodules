@@ -1,3 +1,0 @@
-[submodule ".core/dot_config/zsh/zsh-autosuggestions"]
-	path = .core/dot_config/zsh/zsh-autosuggestions
-	url = https://github.com/zsh-users/zsh-autosuggestions
