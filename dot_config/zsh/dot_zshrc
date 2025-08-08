@@ -93,15 +93,17 @@ autoload -U +X bashcompinit && bashcompinit
 # start autocompletion
 autoload -Uz compinit && compinit
 
-# autosuggestion
-export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-export ZSH_AUTOSUGGEST_USE_ASYNC=true
-export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
-export ZSH_AUTOSUGGEST_MANUAL_REBIND=true
-export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=243"
-bindkey '^ ' autosuggest-accept
-# shellcheck disable=SC1094
-source "${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+if [[ -d "${HOME}/.config/zsh/zsh-autosuggestions" ]]; then
+	# autosuggestion
+	export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+	export ZSH_AUTOSUGGEST_USE_ASYNC=true
+	export ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
+	export ZSH_AUTOSUGGEST_MANUAL_REBIND=true
+	export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=243"
+	bindkey '^ ' autosuggest-accept
+	# shellcheck disable=SC1091
+	source "${ZDOTDIR}/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
 # prompt customization
 # shellcheck disable=SC2086
