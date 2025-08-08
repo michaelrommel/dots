@@ -71,6 +71,9 @@ else
 	fi
 fi
 
+mkdir -p "${HOME}/.cargo/bin"
+mkdir -p "${HOME}/bin"
+
 # shell prompt
 if [[ ! -f "${HOME}/.cargo/bin/starship" ]]; then
 	source "${HOME}/bin/update_starship.sh"
@@ -111,8 +114,6 @@ if is_wsl; then
 	# compile the npiperelay program if it is not already existing
 	NPR=/mnt/c/ProgramFiles/npiperelay/npiperelay.exe
 	if [[ ! -f "${NPR}" ]]; then
-		# -d says not to install the poackage
-		go get -d github.com/jstarks/npiperelay
 		GOOS=windows go build -o ${NPR} github.com/jstarks/npiperelay
 	fi
 fi
