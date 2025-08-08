@@ -4,7 +4,7 @@ source "${HOME}/bin/helper.sh"
 
 update_yazi() {
 	echo "Updating yazi..."
-	platform="$(get_platform)"
+	platform="$(get_alt_platform)"
 	arch="$(get_arch)"
 	mkdir -p "${HOME}/bin"
 	mkdir -p "${HOME}/.config/completions/yazi"
