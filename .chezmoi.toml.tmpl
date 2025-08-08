@@ -1,5 +1,5 @@
 {{- $choices := list "minimal" "core" "tmux" "tools" "neovim" -}}
-{{- $roles := promptMultichoice "roles"
+{{- $roles := promptMultichoiceOnce . "global.roles" "roles"
     $choices (list "minimal" "core")
 -}}
 [data.global]
