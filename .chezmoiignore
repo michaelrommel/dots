@@ -4,6 +4,7 @@
 .inputrc
 .minimalrc
 .path.d/99_default.sh
+.postinitialization.sh
 .zshenv
 bin/helper.sh
 {{ end }}
@@ -25,7 +26,6 @@ bin/helper.sh
 .path.d/80_yazi.sh
 .path.d/80_zoxide.bash
 .path.d/80_zoxide.zsh
-.postinitialization.sh
 .preinitialization.sh
 .ssh
 .terminfo_src
