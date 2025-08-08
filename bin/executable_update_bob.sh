@@ -12,7 +12,6 @@ update_bob() {
 	latest=$(curl -s https://api.github.com/repositories/456199616/tags | jq -r ".[0].name")
 	echo "Latest release seems to be: ${latest}"
 	TMPDIR=$(mktemp -d /tmp/bob.XXXXXX) || exit 1
-	https://github.com/MordechaiHadad/bob/releases/download/v4.1.2/bob-linux-arm.zip
 	if ! curl -sL "https://github.com/MordechaiHadad/bob/releases/download/${latest}/bob-${latest#v}-${OS}-${arch}.zip" -o "${TMPDIR}/bob.zip"; then
 		echo "Download failed. Aborting."
 		exit 1
