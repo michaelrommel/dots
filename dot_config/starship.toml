@@ -128,7 +128,7 @@ truncation_symbol = "…/"
 
 [sudo]
 disabled = false
-symbol = '󰣘 '
+symbol = ' 󰣘 '
 style = 'fg:bright_orange bg:dark0_hard'
 format = '[$symbol]($style)'
 
