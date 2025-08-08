@@ -14,15 +14,10 @@ GOPATH=$(readlink -f "${HOME}/software")/go
 export GOPATH
 export PATH="${GOPATH}/bin:${PATH}"
 
-echo bla
 source "${HOME}/.path.d/50_mise.bash"
-echo blub
 eval "$(${MISE} hook-env)"
-echo foo
 ${MISE} install go@latest
-echo bar
 ${MISE} use -g go@latest
-echo baz
-# ${MISE} reshim
-# eval "$(${MISE} hook-env)"
+${MISE} reshim
+eval "$(${MISE} hook-env)"
 type go
