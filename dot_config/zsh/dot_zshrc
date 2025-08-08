@@ -1,5 +1,9 @@
 # user specific initialization
-[[ -f "${HOME}/.preinitialization.sh" ]] && source "${HOME}/.preinitialization.sh"
+if [[ -f "${HOME}/.preinitialization.sh" ]]; then
+	source "${HOME}/.preinitialization.sh"
+else
+	source "${HOME}/.minimalrc"
+fi
 
 # history settings
 export HISTFILE=${HOME}/.zsh_history
