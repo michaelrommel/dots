@@ -21,7 +21,7 @@ update_yazi() {
 	# we drop yazi into cargo, since it can be installed
 	# from there as well
 	cp yazi "${HOME}/.cargo/bin/yazi"
-	cp ya "${HOME}/.cargo/bin/yazi"
+	cp ya "${HOME}/.cargo/bin/ya"
 	chmod 755 "${HOME}/.cargo/bin/yazi"
 	chmod 755 "${HOME}/.cargo/bin/ya"
 	cp completions/{ya,yazi}.bash "${HOME}/.config/completions/yazi/"

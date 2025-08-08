@@ -17,7 +17,7 @@ update_zoxide() {
 	cd "${TMPDIR}" || exit
 	tar xf zoxide.tar.gz
 	cp zoxide "${HOME}/.cargo/bin/zoxide"
-	chmod 755 "${HOME}/b.cargo/in/zoxide"
+	chmod 755 "${HOME}/.cargo/bin/zoxide"
 	rm -rf "${TMPDIR}"
 	echo "done."
 }

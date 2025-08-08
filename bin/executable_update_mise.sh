@@ -4,14 +4,15 @@ source "${HOME}/bin/helper.sh"
 
 update_mise() {
 	echo "Updating mise..."
-	platform="$(get_platform)"
+	platform="${OS}"
 	arch="$(get_arch)"
 	if [ "$arch" = x86_64 ]; then
-		echo "x64"
+		arch="x64"
 	elif [ "$arch" = aarch64 ]; then
-		echo "arm64"
+		arch="arm64"
 	else
-		error "unsupported architecture: $arch"
+		echo "unsupported architecture: $arch"
+		exit 1
 	fi
 	mkdir -p "${HOME}/bin"
 	latest=$(curl -s https://api.github.com/repositories/586920414/tags | jq -r ".[0].name")
