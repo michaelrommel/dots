@@ -8,6 +8,6 @@ echo "in bootstrap core"
 source "${HOME}/bin/helper.sh"
 
 {{ if not (has "foo" .global.roles)  -}}
-exit 1
+exit 0
 {{ end -}}
 
