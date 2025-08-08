@@ -13,6 +13,6 @@ function y() {
 # Auto-completion
 # ---------------
 if [[ $- == *i* && -d "${HOME}/.yazi" ]]; then
-	source "${HOME}/.yazi/yazi.bash" 2>/dev/null
-	source "${HOME}/.yazi/ya.bash" 2>/dev/null
+	source "${HOME}/.config/completions/yazi/yazi.bash" 2>/dev/null
+	source "${HOME}/.config/completions/yazi/ya.bash" 2>/dev/null
 fi

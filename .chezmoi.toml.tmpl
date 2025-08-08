@@ -1,6 +1,6 @@
-{{- $choices := list "minimal" "core" "tmux" "tools" "neovim" -}}
+{{- $choices := list "core" "tmux" "tools" "languages" "neovim" -}}
 {{- $roles := promptMultichoiceOnce . "global.roles" "roles"
-    $choices (list "minimal" "core")
+    $choices (list "core")
 -}}
 [data.global]
 	roles = {{ $roles | toJson  }}

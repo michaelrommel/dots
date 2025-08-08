@@ -1,0 +1,24 @@
+#! /usr/bin/env bash
+
+echo "update neovim"
+
+# This script should run every time there is an update and
+# the neovim role is assigned
+
+{{ if not (has "neovim" .global.roles)  -}}
+exit 0
+{{ end -}}
+
+if ! is_mac; then
+	echo "Updating font cache"
+	fc-cache -f
+fi
+
+echo "Updating theme cache"
+cd "${HOME}/.config/silicon" || exit
+# paths are not refreshed yet
+eval "$(mise hook-env)"
+# now it will take silicon from mise path under linux
+# or from /opt/homebrew/ on macOS
+silicon --build-cache 1>/dev/null
+

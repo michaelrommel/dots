@@ -19,16 +19,50 @@ fi
 [[ -x "/usr/bin/uname" ]] && UNAME="/usr/bin/uname"
 [[ -x "/bin/uname" ]] && UNAME="/bin/uname"
 
-ARCH=$(${UNAME} -m)
-OS=$(${UNAME} -s)
-OSRELEASE=$("${UNAME}" -r)
+ARCH=$(${UNAME} -m | tr '[:upper:]' '[:lower:]')
+OS=$(${UNAME} -s | tr '[:upper:]' '[:lower:]')
+OSRELEASE=$("${UNAME}" -r | tr '[:upper:]' '[:lower:]')
 
-get_osarch() {
-	echo "${OS}_${ARCH}"
+get_platform() {
+	if [ "$OS" = darwin ]; then
+		PLATFORM="apple-darwin"
+	elif [ "$OS" = linux ]; then
+		PLATFORM="unknown-linux-gnu"
+	else
+		error "unsupported OS: $OS"
+	fi
+	printf '%s' "${PLATFORM}"
+}
+
+get_alt_platform() {
+	if [ "$OS" = darwin ]; then
+		PLATFORM="apple-darwin"
+	elif [ "$OS" = linux ]; then
+		PLATFORM="unknown-linux-musl"
+	else
+		error "unsupported OS: $OS"
+	fi
+	printf '%s' "${PLATFORM}"
+}
+
+get_arch() {
+	case "${ARCH}" in
+	amd64) ARCH="x86_64" ;;
+	armv*) ARCH="arm" ;;
+	arm64) ARCH="aarch64" ;;
+	esac
+
+	# `uname -m` in some cases mis-reports 32-bit OS as 64-bit, so double check
+	if [ "${ARCH}" = "x86_64" ] && [ "$(getconf LONG_BIT)" -eq 32 ]; then
+		ARCH=i686
+	elif [ "${ARCH}" = "aarch64" ] && [ "$(getconf LONG_BIT)" -eq 32 ]; then
+		ARCH=arm
+	fi
+	printf '%s' "${ARCH}"
 }
 
 is_mac() {
-	if [[ "${OS}" == "Darwin" ]]; then return 0; else return 1; fi
+	if [[ "${OS}" == "darwin" ]]; then return 0; else return 1; fi
 }
 
 is_wsl() {

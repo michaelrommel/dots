@@ -1,15 +1,15 @@
 #! /usr/bin/env bash
 
-echo "in bootstrap core"
+echo "bootstrap core"
 
 # This script should install all necessary packages and tools for 
 # the "core" version of the dotfiles
 
-source "${HOME}/bin/helper.sh"
-
 {{ if not (has "core" .global.roles)  -}}
 exit 0
 {{ end -}}
+
+source "${HOME}/bin/helper.sh"
 
 ## I may replace these functions with the chezmoi data
 ## {
@@ -48,31 +48,10 @@ exit 0
 ##   }
 ## }
 
-get_os() {
-	os="$(uname -s)"
-	if [ "$os" = Darwin ]; then
-		echo "apple-darwin"
-	elif [ "$os" = Linux ]; then
-		echo "unknown-linux-musl"
-	else
-		error "unsupported OS: $os"
-	fi
-}
-
-get_arch() {
-	arch="$(uname -m)"
-	if [ "$arch" = x86_64 ]; then
-		echo "x86_64"
-	elif [ "$arch" = aarch64 ] || [ "$arch" = arm64 ]; then
-		echo "aarch64"
-	else
-		error "unsupported architecture: $arch"
-	fi
-}
-
 echo "Installing basic packages"
 if is_mac; then
-	desired=(mosh keychain ncurses gawk autoconf automake pkg-config coreutils imagemagick)
+	desired=(jq mosh keychain ncurses gawk autoconf automake pkg-config 
+		coreutils imagemagick fzf)
 	missing=()
 	check_brewed "missing" "${desired[@]}"
 	if [[ "${#missing[@]}" -gt 0 ]]; then
@@ -80,7 +59,7 @@ if is_mac; then
 		brew install "${missing[@]}"
 	fi
 else
-	desired=(curl git vim mosh keychain zsh ncurses-bin apt-file
+	desired=(curl git jq vim mosh keychain zsh ncurses-bin apt-file
 		unzip sysstat net-tools dnsutils bc gawk universal-ctags
 		software-properties-common socat)
 	missing=()
@@ -92,82 +71,43 @@ else
 	fi
 fi
 
-exit 0
-
-if ! is_mac; then
-	# column oriented file manager
-	if [[ ! -d "${HOME}/.yazi" ]]; then
-		echo "Installing yazi"
-		arch="$(get_arch)"
-		mkdir -p "${HOME}/bin"
-		mkdir -p "${HOME}/.yazi"
-		latest=$(curl -s https://api.github.com/repositories/663900193/tags | jq -r ".[0].name")
-		echo "Latest release seems to be: ${latest}"
-		TMPDIR=$(mktemp -d /tmp/yazi.XXXXXX) || exit 1
-		if ! curl -sL "https://github.com/sxyazi/yazi/releases/download/${latest}/yazi-${arch}-unknown-linux-gnu.zip" -o "${TMPDIR}/yazi.zip"; then
-			echo "Download of yazi failed. Aborting."
-			exit 1
-		fi
-		cd "${TMPDIR}" || exit
-		unzip yazi.zip
-		cd "yazi-${arch}-unknown-linux-gnu" || exit
-		cp yazi "${HOME}/bin/yazi"
-		chmod 755 "${HOME}/bin/yazi"
-		cp completions/{ya,yazi}.bash "${HOME}/.yazi/"
-		rm -rf "${TMPDIR}"
-		echo "done."
-	fi
-	# shell prompt
-	if [[ ! -f "${HOME}/.cargo/bin/starship" ]]; then
-		"${HOME}/.homesick/repos/castle-core/home/bin/update_starship.sh"
-	fi
-	# smarter "cd"
-	if [[ ! -f "${HOME}/bin/zoxide" ]]; then
-		echo "Installing zoxide..."
-		arch="$(get_arch)"
-		mkdir -p "${HOME}/bin"
-		latest=$(curl -s https://api.github.com/repositories/245166720/tags | jq -r ".[0].name")
-		echo "Latest release seems to be: ${latest}"
-		TMPDIR=$(mktemp -d /tmp/zoxide.XXXXXX) || exit 1
-		if ! curl -sL "https://github.com/ajeetdsouza/zoxide/releases/download/${latest}/zoxide-${latest#v}-${arch}-unknown-linux-musl.tar.gz" -o "${TMPDIR}/zoxide.tar.gz"; then
-			echo "Download failed. Aborting."
-			exit 1
-		fi
-		cd "${TMPDIR}" || exit
-		tar xf zoxide.tar.gz
-		cp zoxide "${HOME}/bin/zoxide"
-		chmod 755 "${HOME}/bin/zoxide"
-		rm -rf "${TMPDIR}"
-		echo "done."
-	fi
-	# better autocompletion in the shell
-	if [[ ! -f "${HOME}/bin/carapace" ]]; then
-		echo "Installing carapace..."
-		arch="$(get_arch)"
-		if [[ "$arch" == "x86_64" ]]; then
-			arch="amd64"
-		fi
-		mkdir -p "${HOME}/bin"
-		latest=$(curl -s https://api.github.com/repositories/257400448/tags | jq -r ".[0].name")
-		echo "Latest release seems to be: ${latest}"
-		TMPDIR=$(mktemp -d /tmp/carapace.XXXXXX) || exit 1
-		if ! curl -sL "https://github.com/carapace-sh/carapace-bin/releases/download/${latest}/carapace-bin_${latest#v}_linux_${arch}.tar.gz" -o "${TMPDIR}/carapace.tar.gz"; then
-			echo "Download failed. Aborting."
-			exit 1
-		fi
-		cd "${TMPDIR}" || exit
-		tar xf carapace.tar.gz
-		cp carapace "${HOME}/bin/carapace"
-		chmod 755 "${HOME}/bin/carapace"
-		rm -rf "${TMPDIR}"
-		echo "done."
-	fi
+# shell prompt
+if [[ ! -f "${HOME}/.cargo/bin/starship" ]]; then
+	source "${HOME}/bin/update_starship.sh"
 fi
 
-cd "${HOME}" || exit
-touch .hushlogin
+# smarter "cd"
+if [[ ! -f "${HOME}/.cargo/bin/zoxide" ]]; then
+	source "${HOME}/bin/update_zoxide.sh"
+fi
+
+# better autocompletion in the shell
+if [[ ! -f "${HOME}/bin/carapace" ]]; then
+source "${HOME}/bin/update_carapace.sh"
+fi
+
+# column oriented file manager
+if [[ ! -f "${HOME}/.cargo/bin/yazi" ]]; then
+	source "${HOME}/bin/update_yazi.sh"
+fi
+
+# version manager for tools
+if [[ ! -f "${HOME}/bin/mise" ]]; then
+	source "${HOME}/bin/update_mise.sh"
+fi
+
+if ! fzf --version >/dev/null 2>&1; then
+	echo "Installing fzf"
+	# needs to come before zsh, as we are sourceing completion & keybindings there
+	cd "${HOME}" || exit
+	git clone --depth 1 https://github.com/junegunn/fzf.git "${HOME}/.fzf"
+	"${HOME}/.fzf/install" --no-key-bindings --no-completion --no-update-rc --no-bash --no-zsh --no-fish
+fi
 
 if is_wsl; then
+	if ! go version; then
+		source "${HOME}/bin/install_go.sh"
+	fi
 	# compile the npiperelay program if it is not already existing
 	NPR=/mnt/c/ProgramFiles/npiperelay/npiperelay.exe
 	if [[ ! -f "${NPR}" ]]; then
@@ -204,9 +144,13 @@ if ! satisfied "2.26" "${GIT_VERSION}"; then
 fi
 
 cd "${HOME}" || exit
+touch .hushlogin
+
 if ! is_mac; then
 	MYSH=$(getent passwd "${LOGNAME}" | cut -d: -f7)
 	if [[ ! $MYSH =~ "zsh" ]]; then
+		echo "Changing login shell to zsh"
 		sudo chsh -s /usr/bin/zsh "${LOGNAME}"
+		echo "done"
 	fi
 fi
