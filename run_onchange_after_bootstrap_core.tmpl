@@ -117,7 +117,7 @@ if is_wsl; then
 	if [[ ! -f "${NPR}" ]]; then
 		unset GOBIN
 		GOOS=windows go install github.com/jstarks/npiperelay@latest
-		cp "${GOPATH}/bin/windows_amd64/npipelrelay.exe" "${NPR}"
+		cp "${GOPATH}/bin/windows_amd64/npiperelay.exe" "${NPR}"
 	fi
 fi
 
