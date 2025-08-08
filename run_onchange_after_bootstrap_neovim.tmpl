@@ -67,7 +67,8 @@ fi
 
 if ! bob --version >/dev/null 2>&1; then
 	echo "Installing bob (neovim version manager)"
-	cargo install --locked bob-nvim
+	# cargo install --locked bob-nvim
+	source "${HOME}/bin/update_bob.sh"
 fi
 
 if ! nvim --version >/dev/null 2>&1; then
