@@ -42,6 +42,7 @@ if is_mac; then
 else
 	desired=(curl git universal-ctags unzip fontconfig libfontconfig1-dev
 		libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev
+		libharfbuzz-dev
 		ninja-build gettext cmake build-essential autoconf automake)
 	missing=()
 	check_dpkged "missing" "${desired[@]}"
