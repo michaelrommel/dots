@@ -5,7 +5,7 @@ is_zsh() {
 	if [[ "${MYSH}" =~ "zsh" ]]; then return 0; else return 1; fi
 }
 
-if ! $is_zsh && [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
+if ! is_zsh && [[ "${BASH_VERSINFO[0]}" -lt 4 ]]; then
 	if [[ -x /opt/homebrew/bin/bash ]]; then
 		/opt/homebrew/bin/bash -c "$0"
 	elif [[ -x /usr/local/bin/bash ]]; then
