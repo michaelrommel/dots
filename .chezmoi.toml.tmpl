@@ -1,0 +1,7 @@
+{{- $choices := list "minimal" "core" "tmux" "tools" "neovim" -}}
+{{- $roles := promptMultichoice "roles"
+    $choices (list "minimal" "core")
+-}}
+[data.global]
+	roles = {{ $roles | toJson  }}
+
