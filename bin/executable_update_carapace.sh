@@ -2,8 +2,8 @@
 
 source "${HOME}/bin/helper.sh"
 
-update_zoxide() {
-	echo "Updating zoxide..."
+update_carapace() {
+	echo "Updating carapace..."
 	arch="$(get_arch)"
 	if [[ "$arch" == "x86_64" ]]; then
 		arch="amd64"
@@ -24,4 +24,4 @@ update_zoxide() {
 	echo "done."
 }
 
-update_zoxide
+update_carapace

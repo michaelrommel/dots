@@ -110,7 +110,7 @@ fi
 
 if is_wsl; then
 	if ! go version >/dev/null 2>&1; then
-		source "${HOME}/bin/install_go.sh"
+		"${HOME}/bin/install_go.sh"
 	fi
 	# compile the npiperelay program if it is not already existing
 	NPR=/mnt/c/ProgramFiles/npiperelay/npiperelay.exe

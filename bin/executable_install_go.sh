@@ -18,6 +18,6 @@ source "${HOME}/.path.d/50_mise.bash"
 eval "$(${MISE} hook-env)"
 ${MISE} install go@latest
 ${MISE} use -g go@latest
-${MISE} reshim
-eval "$(${MISE} hook-env)"
+# ${MISE} reshim
+# eval "$(${MISE} hook-env)"
 type go
