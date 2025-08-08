@@ -9,6 +9,8 @@ echo "update neovim"
 exit 0
 {{ end -}}
 
+source "${HOME}/bin/helper.sh"
+
 if ! is_mac; then
 	echo "Updating font cache"
 	fc-cache -f
@@ -20,5 +22,5 @@ cd "${HOME}/.config/silicon" || exit
 eval "$(mise hook-env)"
 # now it will take silicon from mise path under linux
 # or from /opt/homebrew/ on macOS
-silicon --build-cache 1>/dev/null
+type silicon && silicon --build-cache 1>/dev/null
 
