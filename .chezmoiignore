@@ -69,7 +69,7 @@ bin/tmx
 bin/shellcheck
 {{ end }}
 
-{{ if not or((has "languages" .global.roles) (has "core" .global.roles) (has "tools" .global.roles)) }}
+{{ if not or (has "languages" .global.roles) (has "core" .global.roles) (has "tools" .global.roles) }}
 .path.d/40_go.sh
 {{ end }}
 
