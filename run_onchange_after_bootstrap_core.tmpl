@@ -114,7 +114,9 @@ if is_wsl; then
 	# compile the npiperelay program if it is not already existing
 	NPR=/mnt/c/ProgramFiles/npiperelay/npiperelay.exe
 	if [[ ! -f "${NPR}" ]]; then
+		unset GOBIN
 		GOOS=windows go build -o ${NPR} github.com/jstarks/npiperelay
+		cp "${GOPATH}/bin/windows_amd64/npipelrelay.exe" "${NPR}"
 	fi
 fi
 
