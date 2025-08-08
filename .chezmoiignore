@@ -77,6 +77,7 @@ bin/shellcheck
 {{ end }}
 
 {{ if not (has "neovim" .global.roles) }}
+.config/bob
 .config/dictionaries
 .config/harper-ls
 .config/miro
