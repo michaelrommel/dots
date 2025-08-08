@@ -11,16 +11,22 @@ exit 0
 
 source "${HOME}/bin/helper.sh"
 
+# if we do not set those paths here, then all installed binaries
+# that were installed using mise, cannot be found. We want to be able
+# to rerun this script multiple times without errors
+source "${HOME}/.path.d/10_rust.bash"
+source "${HOME}/.path.d/50_mise.bash"
+source "${HOME}/.path.d/99_default.sh"
+eval "$(mise hook-env)"
+
 if ! is_mac; then
 	echo "Updating font cache"
-	fc-cache -f
+	type fc-cache && fc-cache -f
 fi
 
 echo "Updating theme cache"
-cd "${HOME}/.config/silicon" || exit
-# paths are not refreshed yet
-eval "$(mise hook-env)"
-# now it will take silicon from mise path under linux
+cd "${HOME}/.config/silicon" || exit 0
+# now it will take silicon from mise or cargo
 # or from /opt/homebrew/ on macOS
 type silicon && silicon --build-cache 1>/dev/null
 
