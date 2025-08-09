@@ -73,7 +73,7 @@ else
 
 	if ! shfmt --version >/dev/null 2>&1; then
 		echo "Installing shell formatter shfmt via go"
-		if ! go version; then
+		if ! go version >/dev/null 2>&1; then
 			source "${HOME}/bin/install_go.sh"
 		fi
 		go install mvdan.cc/sh/v3/cmd/shfmt@latest
