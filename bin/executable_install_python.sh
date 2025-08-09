@@ -11,6 +11,7 @@ eval "$(${MISE} hook-env)"
 if ! python3 -c 'import pip;' >/dev/null 2>&1; then
 	echo "Installing pip"
 	python3 -mensurepip
+	python3 -mpip install --upgrade pip
 fi
 
 if ! pipx --version >/dev/null 2>&1; then
