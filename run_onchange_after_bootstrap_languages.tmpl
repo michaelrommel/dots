@@ -11,6 +11,12 @@ exit 0
 
 source "${HOME}/bin/helper.sh"
 
+cd "${HOME}" || exit
+# version manager for tools
+if [[ ! -f "${HOME}/bin/mise" ]]; then
+	source "${HOME}/bin/update_mise.sh"
+fi
+
 # if we do not set those paths here, then all installed binaries
 # that were installed using mise, cannot be found. We want to be able
 # to rerun this script multiple times without errors
@@ -30,7 +36,7 @@ if ! node --version >/dev/null 2>&1; then
 	source "${HOME}/bin/install_node.sh"
 fi
 
-if ! go version; then
+if ! go version >/dev/null 2>&1; then
 	source "${HOME}/bin/install_go.sh"
 fi
 
