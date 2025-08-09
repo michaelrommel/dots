@@ -9,6 +9,7 @@ echo "update tools"
 exit 0
 {{ end -}}
 
-echo "Updating theme cache"
-bat cache --build 1>/dev/null
-
+if [[ -x /usr/bin/bat ]]; then
+	echo "Updating theme cache"
+	bat cache --build 1>/dev/null
+fi
