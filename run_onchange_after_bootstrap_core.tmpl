@@ -12,43 +12,6 @@ exit 0
 source "${HOME}/bin/helper.sh"
 cd "${HOME}" || exit
 
-## I may replace these functions with the chezmoi data
-## {
-##   "chezmoi": {
-##     "arch": "amd64",
-##     "configFile": "/home/logsan/.config/chezmoi/chezmoi.toml",
-##     "destDir": "/home/logsan",
-##     "executable": "/home/logsan/bin/chezmoi",
-##     "fqdnHostname": "md2v3xkc.ad005.onehc.net",
-##     "hostname": "md2v3xkc",
-##     "kernel": {
-##       "osrelease": "6.6.87.2-microsoft-standard-WSL2",
-##       "ostype": "Linux",
-##       "version": "#1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025"
-##     },
-##     "os": "linux",
-##     "osRelease": {
-##       "bugReportURL": "https://bugs.debian.org/",
-##       "homeURL": "https://www.debian.org/",
-##       "id": "debian",
-##       "name": "Debian GNU/Linux",
-##       "prettyName": "Debian GNU/Linux 12 (bookworm)",
-##       "supportURL": "https://www.debian.org/support",
-##       "version": "12 (bookworm)",
-##       "versionCodename": "bookworm",
-##       "versionID": "12"
-##     },
-##     "username": "logsan",
-##   },
-##   "global": {
-##     "roles": [
-##       "minimal",
-##       "core",
-##       "tmux"
-##     ]
-##   }
-## }
-
 echo "Installing basic packages"
 if is_mac; then
 	desired=(jq mosh keychain ncurses gawk autoconf automake pkg-config 
@@ -62,7 +25,7 @@ if is_mac; then
 else
 	desired=(curl git jq vim mosh keychain zsh ncurses-bin apt-file
 		unzip sysstat net-tools dnsutils bc gawk universal-ctags
-		software-properties-common socat)
+		librsvg2-bin imagemagick software-properties-common socat)
 	missing=()
 	check_dpkged "missing" "${desired[@]}"
 	if [[ "${#missing[@]}" -gt 0 ]]; then
@@ -161,3 +124,40 @@ if ! is_mac; then
 		echo "done"
 	fi
 fi
+
+## I may replace some functions with the chezmoi data
+## {
+##   "chezmoi": {
+##     "arch": "amd64",
+##     "configFile": "/home/logsan/.config/chezmoi/chezmoi.toml",
+##     "destDir": "/home/logsan",
+##     "executable": "/home/logsan/bin/chezmoi",
+##     "fqdnHostname": "md2v3xkc.ad005.onehc.net",
+##     "hostname": "md2v3xkc",
+##     "kernel": {
+##       "osrelease": "6.6.87.2-microsoft-standard-WSL2",
+##       "ostype": "Linux",
+##       "version": "#1 SMP PREEMPT_DYNAMIC Thu Jun  5 18:30:46 UTC 2025"
+##     },
+##     "os": "linux",
+##     "osRelease": {
+##       "bugReportURL": "https://bugs.debian.org/",
+##       "homeURL": "https://www.debian.org/",
+##       "id": "debian",
+##       "name": "Debian GNU/Linux",
+##       "prettyName": "Debian GNU/Linux 12 (bookworm)",
+##       "supportURL": "https://www.debian.org/support",
+##       "version": "12 (bookworm)",
+##       "versionCodename": "bookworm",
+##       "versionID": "12"
+##     },
+##     "username": "logsan",
+##   },
+##   "global": {
+##     "roles": [
+##       "minimal",
+##       "core",
+##       "tmux"
+##     ]
+##   }
+## }
