@@ -13,7 +13,9 @@ source "${HOME}/bin/helper.sh"
 
 if ! is_mac; then
 	echo "Updating font cache"
-	type fc-cache && fc-cache -f
+	if [[ -x /usr/bin/fc-cache ]]; then
+		fc-cache -f
+	fi
 fi
 
 echo "Updating theme cache"
