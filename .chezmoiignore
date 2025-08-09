@@ -26,6 +26,8 @@
 .git_template
 .git_template
 .gitconfig
+.path.d/25_fzf.zsh
+.path.d/25_fzf.bash
 .path.d/80_carapace.bash
 .path.d/80_carapace.zsh
 .path.d/80_yazi.sh
@@ -64,8 +66,6 @@ bin/tmx
 
 {{ if not (has "tools" .global.roles) }}
 .path.d/30_bat_extras.sh
-.path.d/25_fzf.zsh
-.path.d/25_fzf.bash
 .path.d/30_bat.sh
 .path.d/90_tooling.sh
 .config/bat
