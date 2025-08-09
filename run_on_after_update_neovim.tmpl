@@ -27,6 +27,8 @@ if [[ -d "${HOME}/.config/silicon" ]]; then
 		unset SILICON
 	fi
 
-	[[ -n "${SILICON}" ]] && "${SILICON}" --build-cache 1>/dev/null
+	if [[ -n "${SILICON}" ]]; then
+		"${SILICON}" --build-cache 1>/dev/null
+	fi
 fi
 
